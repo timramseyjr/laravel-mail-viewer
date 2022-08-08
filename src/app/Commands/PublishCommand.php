@@ -23,6 +23,10 @@ class PublishCommand extends Command
             '--tag' => 'mail-viewer-config',
         ]);
 
+        $this->call('vendor:publish', [
+            '--tag' => 'mail-viewer-migrations',
+        ]);
+
         if ($this->option('views')) {
             $this->call('vendor:publish', [
                 '--tag'   => 'mail-viewer-views',

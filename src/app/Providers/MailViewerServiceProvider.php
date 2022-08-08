@@ -8,9 +8,11 @@ use MasterRO\MailViewer\Commands\PruneCommand;
 use MasterRO\MailViewer\Commands\PublishCommand;
 use MasterRO\MailViewer\Listeners\MailLogger;
 use MasterRO\MailViewer\Services\Logger;
+use MasterRO\MailViewer\Traits\PublishesMigrations;
 
 class MailViewerServiceProvider extends EventServiceProvider
 {
+    use PublishesMigrations;
     /**
      * The event handler mappings for the application.
      *
@@ -49,11 +51,11 @@ class MailViewerServiceProvider extends EventServiceProvider
             __DIR__ . '/../../config/mail-viewer.php', 'mail-viewer'
         );
 
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations/');
-
         $this->loadRoutesFrom(__DIR__ . '/../../resources/routes/web.php');
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'mail-viewer');
+
+        $this->registerMigrations(__DIR__.'/../../database/migrations');
     }
 
     /**
@@ -72,5 +74,6 @@ class MailViewerServiceProvider extends EventServiceProvider
         $this->publishes([
             __DIR__ . '/../../public/' => public_path('vendor/mail-viewer'),
         ], ['mail-viewer-assets', 'laravel-assets']);
+
     }
 }
